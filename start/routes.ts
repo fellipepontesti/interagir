@@ -19,7 +19,15 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import CriarAlunoController from 'App/Controllers/Http/Alunos/CriarAlunoController/CriarAlunoController'
+import ListarTodosAlunosController from 'App/Controllers/Http/Alunos/ListagemAlunosController/ListarTodosAlunosController'
 
-Route.get('/', async ({ view }) => {
-  return view.render('welcome')
+Route.group(() => {
+  Route.get('/', async ({ view }) => {
+    return view.render('Usuario/criarUsuario')
+  })
+
+  // Alunos
+  Route.get('/alunos', new ListarTodosAlunosController().call)
+  Route.post('/alunos', new CriarAlunoController().call)
 })
