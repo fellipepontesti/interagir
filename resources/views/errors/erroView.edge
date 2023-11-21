@@ -1,0 +1,14 @@
+<!-- resources/views/erroview.edge -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erro na View</title>
+</head>
+<body>
+  <h1>Ocorreu um erro ao carregar os dados.</h1>
+  <p>{{ JSON.stringify(error) }}</p>
+  <p>{{ error.message || error.messages }}</p>
+</body>
+</html>

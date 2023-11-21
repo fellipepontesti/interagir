@@ -19,15 +19,21 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-import CriarAlunoController from 'App/Controllers/Http/Alunos/CriarAlunoController/CriarAlunoController'
-import ListarTodosAlunosController from 'App/Controllers/Http/Alunos/ListagemAlunosController/ListarTodosAlunosController'
+// import CriarUsuarioController from 'App/Controllers/Http/Usuario/CriarUsuarioController/CriarUsuarioController'
+// import ListarTodosUsuariosController from 'App/Controllers/Http/Usuario/ListagemUsuariosController/ListagemUsuariosController'
 
 Route.group(() => {
   Route.get('/', async ({ view }) => {
-    return view.render('Usuario/criarUsuario')
+    return view.render('login')
   })
 
-  // Alunos
-  Route.get('/alunos', new ListarTodosAlunosController().call)
-  Route.post('/alunos', new CriarAlunoController().call)
+  // Usuarios
+  Route.get('/usuarios', 'UserController.listAllUsers').as('list.users').middleware('auth')
+
+  // Route.post('/usuarios', new CriarUsuarioController().call)
+  Route.get('/register', 'AuthController.registerShow').as('auth.register.show')
+  Route.post('/register', 'AuthController.register').as('auth.register')
+  Route.get('/login', 'AuthController.loginShow').as('auth.login.show')
+  Route.post('/login', 'AuthController.login').as('auth.login')
+  Route.get('/logout', 'AuthController.logout').as('auth.logout')
 })

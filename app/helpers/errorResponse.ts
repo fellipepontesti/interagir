@@ -16,7 +16,6 @@ export interface ErrorResponse {
 function errorResponse(context: HttpContext, error: Error): any {
   const status = getStatus(error.name)
   let errorResponse: HttpResponse
-  console.log('---> ', error)
 
   if (status === 500) {
     errorResponse = {

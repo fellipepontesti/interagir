@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import Hash from '@ioc:Adonis/Core/Hash'
+import { column, beforeSave, BaseModel } from '@ioc:Adonis/Lucid/Orm'
 
-export enum EnumUserTipo {
+export enum EnumTypeUser {
   ROOT = 0,
   ALUNO = 1,
   PROFESSOR = 2,
@@ -9,9 +10,18 @@ export enum EnumUserTipo {
   DIRETOR = 4,
 }
 
-export default class Aluno extends BaseModel {
+export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: number
+
+  @column()
+  public email: string
+
+  @column({ serializeAs: null })
+  public password: string
+
+  @column()
+  public rememberMeToken: string | null
 
   @column()
   public nome: string
@@ -32,16 +42,7 @@ export default class Aluno extends BaseModel {
   public contato_secundario: string
 
   @column()
-  public usuario: string
-
-  @column()
-  public tipo: EnumUserTipo
-
-  @column()
-  public password: string
-
-  @column()
-  public email: string
+  public tipo: EnumTypeUser
 
   @column()
   public endereco: string
@@ -54,4 +55,11 @@ export default class Aluno extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @beforeSave()
+  public static async hashPassword(user: User) {
+    if (user.$dirty.password) {
+      user.password = await Hash.make(user.password)
+    }
+  }
 }
